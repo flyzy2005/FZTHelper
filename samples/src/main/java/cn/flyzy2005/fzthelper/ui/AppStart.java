@@ -27,6 +27,9 @@ public class AppStart extends AbstractWelcomeActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 Toast.makeText(AppStart.this, "动画结束啦", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(AppStart.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();//记得调用finish()
             }
 
             @Override
