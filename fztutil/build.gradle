@@ -20,7 +20,26 @@ android {
         }
     }
 }
+task clearJar(type: Delete) {
+    delete 'build/libs/fztutil.jar'
+    delete 'libs/fztutil.jar'
+}
 
+//打包任务
+task makeJar(type:org.gradle.api.tasks.bundling.Jar) {
+    //指定生成的jar名
+    baseName 'fztutil'
+    //从哪里打包class文件
+    from('build/intermediates/classes/debug/cn/flyzy2005/fztutil')
+    //打包到jar后的目录结构
+    into('cn/flyzy2005/fztutil/')
+    //去掉不需要打包的目录和文件
+    exclude('BuildConfig.class', 'R.class')
+    //去掉R$开头的文件
+    exclude{ it.name.startsWith('R$');}
+}
+
+makeJar.dependsOn(clearJar, build)
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
