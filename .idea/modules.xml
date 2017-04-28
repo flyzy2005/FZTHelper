@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FZTHelper.iml" filepath="$PROJECT_DIR$/FZTHelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fztutil/fztutil.iml" filepath="$PROJECT_DIR$/fztutil/fztutil.iml" />
+      <module fileurl="file://$PROJECT_DIR$/samples/samples.iml" filepath="$PROJECT_DIR$/samples/samples.iml" />
+    </modules>
+  </component>
+</project>
