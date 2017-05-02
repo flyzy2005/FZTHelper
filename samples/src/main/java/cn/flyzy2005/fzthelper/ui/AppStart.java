@@ -1,5 +1,6 @@
 package cn.flyzy2005.fzthelper.ui;
 
+import android.content.Intent;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
@@ -26,10 +27,10 @@ public class AppStart extends AbstractWelcomeActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Toast.makeText(AppStart.this, "动画结束啦", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(AppStart.this, MainActivity.class);
-//                startActivity(intent);
-//                finish();//记得调用finish()
+//                Toast.makeText(AppStart.this, "动画结束啦", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AppStart.this, MainActivity.class);
+                startActivity(intent);
+                finish();//记得调用finish()
             }
 
             @Override
@@ -43,4 +44,5 @@ public class AppStart extends AbstractWelcomeActivity {
     protected void setDuration() {
         durationTime = 800;
     }
+
 }
