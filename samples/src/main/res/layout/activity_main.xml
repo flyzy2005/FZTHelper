@@ -33,4 +33,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="getUser"/>
+    <Button
+        android:text="get permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="getPermission"/>
+    <TextView
+        android:id="@+id/permission_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="waiting.."/>
 </LinearLayout>
