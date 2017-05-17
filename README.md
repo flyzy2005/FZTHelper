@@ -89,9 +89,7 @@
     }
 ```
 ## 4.PermissionHelper，Android6.0动态权限获取。修改自：[PermissionUtil][1]
-
-
-  [1]: https://github.com/kayvannj/PermissionUtil
+![此处输入图片的描述][2]
 
 > Android
 > 6.0之前，权限在应用安装过程中只询问一次，以列表的形式展现给用户，然而大多数用户并不会注意到这些，直接就下一步了，应用安装成功后就会被赋予清单文件中的所有权限，应用就可以在用户不知情的情况下进行非法操作（比如偷偷的上传用户数据）。
@@ -155,3 +153,7 @@ mPermissionObject = PermissionHelper.with(MainActivity.this).request(Manifest.pe
         mPermissionObject.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 ```
+
+
+  [1]: https://github.com/kayvannj/PermissionUtil
+  [2]: https://github.com/Flyzy2005/FZTHelper/blob/master/pictures/UML_PermissionHelper.png?raw=true%20PermisionHelper
