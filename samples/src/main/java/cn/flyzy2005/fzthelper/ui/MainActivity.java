@@ -25,7 +25,7 @@ import cn.flyzy2005.fztutil.util.PermissionHelper;
 public class MainActivity extends AppCompatActivity {
     private static int REQUEST_CODE_CAMERA = 101;
     private ExitHelper mExitHelper;
-    private PermissionHelper.PermissionRequestObject mPermissionObject;
+    private PermissionHelper.PermissionRequestObject mPermissionRequestObject;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getPermission(View view) {
-        mPermissionObject = PermissionHelper.with(MainActivity.this).request(Manifest.permission.CAMERA).onAllGranted(new FuncCall() {
+        mPermissionRequestObject = PermissionHelper.with(MainActivity.this).request(Manifest.permission.CAMERA).onAllGranted(new FuncCall() {
             @Override
             public void call() {
                 ((TextView)findViewById(R.id.permission_result)).setText("get!");
@@ -87,6 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        mPermissionObject.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mPermissionRequestObject.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

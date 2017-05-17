@@ -84,7 +84,7 @@ public class PermissionHelper {
         }
     }
 
-    static public class PermissionRequestObject {
+    public static class PermissionRequestObject {
 
         private static final String TAG = PermissionObject.class.getSimpleName();
         private AppCompatActivity mAppCompatActivity;
@@ -98,17 +98,17 @@ public class PermissionHelper {
         private int mRequestCode;
         private FuncResult mResultFunc;
 
-        public PermissionRequestObject(AppCompatActivity activity, String[] permissionNames) {
+        PermissionRequestObject(AppCompatActivity activity, String[] permissionNames) {
             mAppCompatActivity = activity;
             mPermissionNames = permissionNames;
         }
 
-        public PermissionRequestObject(Fragment fragment, String[] permissionNames) {
+        PermissionRequestObject(Fragment fragment, String[] permissionNames) {
             mFragment = fragment;
             mPermissionNames = permissionNames;
         }
 
-        public PermissionRequestObject(Activity activity, String[] permissionNames) {
+        PermissionRequestObject(Activity activity, String[] permissionNames) {
             mActivity = activity;
             mPermissionNames = permissionNames;
         }
