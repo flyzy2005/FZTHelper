@@ -233,6 +233,7 @@ OkHttpHelper.getInstance().execute(request, new StringCallback() {
 1. 提供cn.flyzy2005.fztutil.callback.Callback抽象类，可以通过继承它来实现对response的处理，目前工具里已提供StringCallback和FileCallback，分别提供将response转成string和将response转成file的功能。
 2. okHttpClient采用了默认的设置，如果对超时等设置有特殊需求，可以通过OkHttpHelper.getInstance().getOkHttpClient()方法获得okHttpClient对象后自行设置。
 3. 如果所提供的功能不满足需求，同样可以获取okHttpClient对象自行处理。
+  
   [1]: https://github.com/kayvannj/PermissionUtil
   [2]: https://github.com/Flyzy2005/FZTHelper/blob/master/pictures/UML_PermissionHelper.png?raw=true%20PermisionHelper
   [3]: https://github.com/square/okhttp%20Okhttp3
