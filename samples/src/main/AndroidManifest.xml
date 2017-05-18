@@ -2,6 +2,11 @@
     package="cn.flyzy2005.fzthelper">
     <!-- 使用相机 -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 使用网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- SD卡读写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"

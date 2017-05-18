@@ -1,46 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is main activity!" />
-    <EditText
-        android:id="@+id/user_id"
-        android:hint="user_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/user_username"
-        android:hint="user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/user_password"
-        android:hint="user_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <Button
-        android:text="set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="setUser"/>
-    <Button
-        android:text="get"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="getUser"/>
-    <Button
-        android:text="get permission"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="getPermission"/>
-    <TextView
-        android:id="@+id/permission_result"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="waiting.."/>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This is main activity!" />
+
+        <EditText
+            android:id="@+id/user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="user_id" />
+
+        <EditText
+            android:id="@+id/user_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="user_name" />
+
+        <EditText
+            android:id="@+id/user_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="user_password" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="setUser"
+            android:text="set" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getUser"
+            android:text="get" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getPermission"
+            android:text="get permission" />
+
+        <TextView
+            android:id="@+id/permission_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="waiting.." />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getHtml"
+            android:text="get html" />
+
+        <TextView
+            android:id="@+id/html_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="waiting.." />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getFile"
+            android:text="get file" />
+
+        <TextView
+            android:id="@+id/file_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="waiting.." />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="upFile"
+            android:text="upload file" />
+
+        <TextView
+            android:id="@+id/up_file_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="waiting.." />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="post"
+            android:text="post" />
+
+        <TextView
+            android:id="@+id/post_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="waiting.." />
+    </LinearLayout>
+</ScrollView>
