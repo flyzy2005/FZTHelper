@@ -26,7 +26,7 @@ public class OkHttpHelper {
 
     public static OkHttpHelper getInstance() {
         if (null == instance) {
-            synchronized (ConfigHelper.class) {
+            synchronized (OkHttpHelper.class) {
                 if (null == instance) {
                     instance = new OkHttpHelper();
                 }
