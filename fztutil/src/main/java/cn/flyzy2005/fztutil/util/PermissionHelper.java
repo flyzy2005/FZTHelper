@@ -215,8 +215,7 @@ public class PermissionHelper {
         }
 
         /**
-         * Called with the original operands from {@link AppCompatActivity#onRequestPermissionsResult(int, String[], int[])
-         * onRequestPermissionsResult} for any result
+         * Called with the original operands
          */
         public PermissionRequestObject onResult(FuncResult resultFunc) {
             mResultFunc = resultFunc;
@@ -224,8 +223,7 @@ public class PermissionHelper {
         }
 
         /**
-         * This Method should be called from {@link AppCompatActivity#onRequestPermissionsResult(int, String[], int[])
-         * onRequestPermissionsResult} with all the same incoming operands
+         * This Method should be called
          * <pre>
          * {@code
          *
