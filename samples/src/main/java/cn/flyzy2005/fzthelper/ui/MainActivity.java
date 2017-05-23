@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.File;
+import java.util.List;
 
 import cn.flyzy2005.fzthelper.R;
 import cn.flyzy2005.fzthelper.base.BaseApplication;
+import cn.flyzy2005.fzthelper.bean.Book;
 import cn.flyzy2005.fzthelper.bean.User;
+import cn.flyzy2005.fzthelper.dao.BookDao;
 import cn.flyzy2005.fztutil.callback.FileCallback;
 import cn.flyzy2005.fztutil.callback.StringCallback;
 import cn.flyzy2005.fztutil.func.FuncCall;
@@ -28,11 +35,14 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
+
+
 /**
  * Created by Fly on 2017/5/2.
  */
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private static int REQUEST_CODE_CAMERA = 101;
     private ExitHelper mExitHelper;
     private PermissionHelper.PermissionRequestObject mPermissionRequestObject;
@@ -198,5 +208,74 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.post_result)).setText(s);
             }
         });
+    }
+
+    public void query(View view) {
+        BookDao bookDao = new BookDao();
+        Book bookInsert = new Book();
+        bookInsert.setId(1);//并不会用到
+        bookInsert.setPublisher("whu1");
+        bookInsert.setName("心灵鸡汤1");
+        bookInsert.setAuthor("fly1");
+        if(bookDao.insert(bookInsert, false)){
+            Log.i(TAG, "insert: " + "插入成功，id采用自增模式");
+        }
+        bookInsert.setId(6);//会用这个作为id插入到表中
+        bookInsert.setPublisher("whu2");
+        bookInsert.setAuthor("fly2");
+        bookInsert.setName("心灵鸡汤2");
+        if(bookDao.insert(bookInsert, true)){
+            Log.i(TAG, "insert: " + "插入成功， id为设置的id");
+        }
+
+        Book bookFind = bookDao.findById(1);
+        Log.i(TAG, "find: " + "根据id找到book：" + JSON.toJSONString(bookFind));
+
+        List<Book> bookList1 = bookDao.findAll();
+        Log.i(TAG, "find: " + "查询出所有book：" + JSON.toJSONString(bookList1));
+
+        JSONObject condition = new JSONObject();
+        condition.put("author", "fly");
+        condition.put("publisher", "whu");
+        List<Book> bookList2 = bookDao.findByParams(condition);
+        Log.i(TAG, "find: " + "根据条件查询出所有book：" + JSON.toJSONString(bookList2));
+
+        String sql = "select * from book where author = 'fly'";
+        List<Book> bookList3 = bookDao.findBySql(sql);
+        Log.i(TAG, "find: " + "根据sql语句查询出所有book：" + JSON.toJSONString(bookList3));
+
+        if(bookDao.deleteById(1)){
+            Log.i(TAG, "delete: " + "根据id删除成功，成功删除id为1的book");
+        }
+
+        Book bookDelete = new Book();
+        bookDelete.setId(2);
+        if(bookDao.delete(bookDelete)){
+            Log.i(TAG, "delete: " + "根据model删除成功，成功删除实体bookDelete，实质是删除id为2的book");
+        }
+
+        Book bookModify = new Book();
+        bookModify.setId(3);
+        bookModify.setAuthor("flyModify");
+        bookModify.setName("心灵鸡汤Modify");
+        bookModify.setPublisher("whuModify");
+        if(bookDao.update(bookModify)){
+            Log.i(TAG, "update: " + "成功修改id为" + bookModify.getId() + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
+        }
+
+        condition = new JSONObject();
+        condition.put("author", "fly1");
+        condition.put("publisher", "whu1");
+        if(bookDao.updateByParams(bookModify, condition)){
+            Log.i(TAG, "update: " + "成功修改满足条件" + condition + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
+        }
+
+        condition = new JSONObject();
+        condition.put("author", "flyModify");
+        condition.put("publisher", "whuModify");
+        if(bookDao.deleteByParams(condition)){
+            Log.i(TAG, "delete: " + "成功删除满足条件" + condition + "的书籍");
+        }
+
     }
 }
