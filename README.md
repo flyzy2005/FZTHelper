@@ -153,6 +153,7 @@ mPermissionObject = PermissionHelper.with(MainActivity.this).request(Manifest.pe
         mPermissionObject.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 ```
+### 注意：即使是运行时权限，也需要在AndroidManifest.xml中声明的，不然这个会不起效果。
 ## 5.OkHttpHelper，对[Okhttp3][3]的封装。重定义Callback将onFailure(),onResponse()里的事件写在主线程中，可以直接更新UI界面。可以通过继承Callback实现对response的处理（重写parseResponse(Response)方法，该方法在子线程中进行，因此不会造成界面卡顿）。封装了[Okhttp3][3]中提供的上传MultipartFile方法，可以与SpringMVC中的MultipartFile[]结合使用。
 - get方法：
 ```
@@ -233,7 +234,283 @@ OkHttpHelper.getInstance().execute(request, new StringCallback() {
 1. 提供cn.flyzy2005.fztutil.callback.Callback抽象类，可以通过继承它来实现对response的处理，目前工具里已提供StringCallback和FileCallback，分别提供将response转成string和将response转成file的功能。
 2. okHttpClient采用了默认的设置，如果对超时等设置有特殊需求，可以通过OkHttpHelper.getInstance().getOkHttpClient()方法获得okHttpClient对象后自行设置。
 3. 如果所提供的功能不满足需求，同样可以获取okHttpClient对象自行处理。
-  
+## 6.对数据库操作进行了一些封装，包括导入数据库以及封装了CRUD操作。
+- 导入数据库，这里主要是可以通过Navicat等软件生成的db文件直接写入到手机中去，当然你也可以自己写create方法，动态创建表。继承AbstractSQLiteManger，在Application类中实例化即可：
+
+```
+public class SQLiteHelper extends AbstractSQLiteManger {
+    /**
+     * 构造函数
+     *
+     * @param databaseName    保存的数据库文件名，如test.db
+     * @param packageName     工程包名，如cn.flyzy2005.fzthelper，在工程的build.gradle文件可以看到
+     * @param databaseVersion 当前的数据库版本
+     * @param databaseRawId   需要写入的database文件所对应的R.raw的id，如R.id.test（把test.db文件拷贝到res下的raw下面即可）
+     * @param context         ApplicationContext
+     */
+    public SQLiteHelper(String databaseName, String packageName, int databaseVersion, int databaseRawId, Context context) {
+        super(databaseName, packageName, databaseVersion, databaseRawId, context);
+    }
+
+    @Override
+    protected void updateDatabase(int oldVersion, int newVersion) {
+        if(oldVersion >= newVersion)
+            return;
+
+        //根据数据库版本依次更新
+        for(int i = oldVersion; i < newVersion; ++i){
+            switch (i){
+                case 0:
+                    //更新操作包括4个步骤（这些语句都可以通过Navicat直接生成）
+                    //1.将所有表重命名成temp表 String TEMP_TABLE = "ALTER TABLE \"routeline\" RENAME TO \"_temp_routeline\"";
+                    //2.建立一个新表
+                    //String NEW_TABLE = "CREATE TABLE \"routeline\" (\n" +
+                    //"\"ID\"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\n" +
+                    //        "\"userName\"  TEXT,\n" +
+                    //        "\"RouteLine\"  BLOB NOT NULL,\n" +
+                    //        "\"beginDate\"  TEXT NOT NULL,\n" +
+                    //        "\"stopDate\"  TEXT NOT NULL,\n" +
+                    //        "\"upload\"  INTEGER NOT NULL DEFAULT 0\n" +
+                    //        ")";
+                    //3.转移数据 String INSERT_DATA = "INSERT INTO \"routeline\" (\"ID\", \"userName\", \"RouteLine\", \"beginDate\", \"stopDate\") SELECT \"ID\", \"userName\", \"RouteLine\", \"beginDate\", \"stopDate\" FROM \"_temp_routeline\"";
+                    //4.删除temp表 String DROP_TEMP = "drop table _temp_routeline";
+                    //依次调用getDatabase().execSQL(sql)即可
+                    break;
+                case 1:
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
+//在Application中调用
+    //获得SQLiteDatabase
+    public SQLiteDatabase getDatabase(){
+        return database;
+    }
+    //关闭SQLiteDatabase
+    public void closeDatabase(){
+        sqLiteHelper.closeDatabase();
+    }
+    //初始化
+    private void initDatabase(){
+        sqLiteHelper = new SQLiteHelper("test.db", "cn.flyzy2005.fzthelper", 1, R.raw.test, this);
+        try {
+            sqLiteHelper.openDatabase();
+        } catch (IOException e) {
+            //打开文件失败，文件不存在
+            e.printStackTrace();
+        }
+        database = sqLiteHelper.getDatabase();
+    }
+```
+
+- 对CRUD进行了一些封装，对查询结果进行了映射，可以直接转成Entity类，主要封装的函数包括：
+
+```
+/**
+ * Created by Fly on 2017/5/22.
+ * <p>
+ *     很关键的一个字段就是<b>id</b>，并且判断就是通过id来判断的，并不会识别其他如bookId，carId
+ *     在{@link AbstractDao}中对这些方法进行了封装，代码并不复杂，可以稍微理解一下最终效果再使用
+ *     暂时插入和更新只支持String和int类型，查找自动映射只支持long、String、boolean，详见{@link cn.flyzy2005.fztutil.entityMapper.BeanUtils}
+ *     如果功能不够，可以通过{@code getDatabase()}获得SQLiteDatabase自己写具体方法
+ * </p>
+ */
+
+interface IBaseDao<T> {
+    /**
+     * 根据id进行查询
+     * @param id id
+     * @return entity实例
+     */
+    T findById(Object id);
+
+    /**
+     *根据条件条件进行查询
+     * @param condition 查询条件{"name":"fly"}(封装在JSONObject中)
+     * @return 所有满足条件的entity实例
+     */
+    List<T> findByParams(JSONObject condition);
+
+    /**
+     * 查询表中所有数据
+     * @return 所有entity实例
+     */
+    List<T> findAll();
+
+    /**
+     * 根据sql语句进行查询
+     * @param sql sql语句
+     * @return 满足查询条件的entity实例
+     */
+    List<T> findBySql(String sql);
+
+    /**
+     * 添加一条记录
+     * @param model entity实例
+     * @param withId 是否需要插入Id，不插入的话就采用SQLite自带的自增策略
+     * @return 是否插入成功
+     */
+    boolean insert(T model, boolean withId);
+
+    /**
+     * 根据Id删除一条记录，依然是使用entity的id属性来进行删除操作，并不会用到其他字段
+     * @param model entity实例
+     * @return 是否删除成功
+     */
+    boolean delete(T model);
+
+    /**
+     * 根据Id删除一条记录
+     * @param id Id
+     * @return 是否删除成功
+     */
+    boolean deleteById(Object id);
+
+    /**
+     * 根据条件删除一条记录
+     * @param condition 删除条件
+     * @return 是否删除成功
+     */
+    boolean deleteByParams(JSONObject condition);
+
+    /**
+     * 修改一条记录，会根据传入的entity的id进行匹配修改，并且会用除id的所有其他属性的新值更新数据库
+     * @param model 修改的entity实例
+     * @return 是否修改成功
+     */
+    boolean update(T model);
+
+    /**
+     * 根据条件修改一条记录，并且会用除id的所有其他属性的新值更新数据库
+     * @param model 修改的entity实例
+     * @param condition 条件
+     * @return 是否修改成功
+     */
+    boolean updateByParams(T model, JSONObject condition);
+}
+```
+各个方法的介绍都有详细的注释，实现的功能&&缺陷都写明了，各个方法的实现都在AbstracDao进行了实现，因此对于一个数据库表，要做的事包括两件：1:定义一个与之对应的entity类，属性名称与表的列名相一致，2：建一个Dao类，实现AbstracDao<T>:
+
+```
+//refer to table book
+public class Book {
+    private int id;
+    private String name;
+    private String author;
+    private String publisher;
+    
+    
+    //省略set get方法
+}
+
+//实现AbstractDao<T>，将相应的entity类作为类型参数传进去
+//需要提供一个构造函数，在构造函数里对database以及tableName进行赋值
+//当然，你也可以获取到database自己进行数据库操作
+public class BookDao extends AbstractDao<Book> {
+    public BookDao() {
+        setDatabase(BaseApplication.getInstance().getDatabase());
+        setTableName("book");
+    }
+
+    public void myOpera(){
+        SQLiteDatabase myDatabase =  getDatabase();
+        //...do anything you want with SQLiteDatabase
+    }
+}
+```
+使用方法：
+
+```
+        BookDao bookDao = new BookDao();
+        Book bookInsert = new Book();
+        bookInsert.setId(1);//并不会用到
+        bookInsert.setPublisher("whu1");
+        bookInsert.setName("心灵鸡汤1");
+        bookInsert.setAuthor("fly1");
+        if(bookDao.insert(bookInsert, false)){
+            Log.i(TAG, "insert: " + "插入成功，id采用自增模式");
+        }
+        bookInsert.setId(6);//会用这个作为id插入到表中
+        bookInsert.setPublisher("whu2");
+        bookInsert.setAuthor("fly2");
+        bookInsert.setName("心灵鸡汤2");
+        if(bookDao.insert(bookInsert, true)){
+            Log.i(TAG, "insert: " + "插入成功， id为设置的id");
+        }
+
+        Book bookFind = bookDao.findById(1);
+        Log.i(TAG, "find: " + "根据id找到book：" + JSON.toJSONString(bookFind));
+
+        List<Book> bookList1 = bookDao.findAll();
+        Log.i(TAG, "find: " + "查询出所有book：" + JSON.toJSONString(bookList1));
+
+        JSONObject condition = new JSONObject();
+        condition.put("author", "fly");
+        condition.put("publisher", "whu");
+        List<Book> bookList2 = bookDao.findByParams(condition);
+        Log.i(TAG, "find: " + "根据条件查询出所有book：" + JSON.toJSONString(bookList2));
+
+        String sql = "select * from book where author = 'fly'";
+        List<Book> bookList3 = bookDao.findBySql(sql);
+        Log.i(TAG, "find: " + "根据sql语句查询出所有book：" + JSON.toJSONString(bookList3));
+
+        if(bookDao.deleteById(1)){
+            Log.i(TAG, "delete: " + "根据id删除成功，成功删除id为1的book");
+        }
+
+        Book bookDelete = new Book();
+        bookDelete.setId(2);
+        if(bookDao.delete(bookDelete)){
+            Log.i(TAG, "delete: " + "根据model删除成功，成功删除实体bookDelete，实质是删除id为2的book");
+        }
+
+        Book bookModify = new Book();
+        bookModify.setId(3);
+        bookModify.setAuthor("flyModify");
+        bookModify.setName("心灵鸡汤Modify");
+        bookModify.setPublisher("whuModify");
+        if(bookDao.update(bookModify)){
+            Log.i(TAG, "update: " + "成功修改id为" + bookModify.getId() + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
+        }
+
+        condition = new JSONObject();
+        condition.put("author", "fly1");
+        condition.put("publisher", "whu1");
+        if(bookDao.updateByParams(bookModify, condition)){
+            Log.i(TAG, "update: " + "成功修改满足条件" + condition + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
+        }
+
+        condition = new JSONObject();
+        condition.put("author", "flyModify");
+        condition.put("publisher", "whuModify");
+        if(bookDao.deleteByParams(condition)){
+            Log.i(TAG, "delete: " + "成功删除满足条件" + condition + "的书籍");
+        }
+```
+
+---
+## 引用方法：
+
+```
+compile 'cn.flyzy2005:fztutil:1.0.0'
+```
+
+---
+# 1.0.0版本后记
+至此，FztHelper第一版的功能已经整合结束了，详细的使用说明在此READ.md里已经说清楚了（说清楚了吧？ = =）。当然，所有的类都在samples里有详细代码，如果有哪里有不清楚的可以clone工程，在Android Studio中打开再看。
+
+有bug在所难免。。反正各种问题以后也可以改，如果大家有什么想加进来的帮助类，也可以提交添加请求，总结出一些公用类，以后开发也会容易很多。
+
+谢谢^ ^。 2017.5.23晚
+
+
+
+
   [1]: https://github.com/kayvannj/PermissionUtil
   [2]: https://github.com/Flyzy2005/FZTHelper/blob/master/pictures/UML_PermissionHelper.png?raw=true%20PermisionHelper
   [3]: https://github.com/square/okhttp%20Okhttp3
