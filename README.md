@@ -154,7 +154,7 @@ mPermissionObject = PermissionHelper.with(MainActivity.this).request(Manifest.pe
     }
 ```
 ### 注意：即使是运行时权限，也需要在AndroidManifest.xml中声明的，不然这个会不起效果。
-## 5.OkHttpHelper，对[Okhttp3][3]的封装。重定义Callback将onFailure(),onResponse()里的事件写在主线程中，可以直接更新UI界面。可以通过继承Callback实现对response的处理（重写parseResponse(Response)方法，该方法在子线程中进行，因此不会造成界面卡顿）。封装了[Okhttp3][3]中提供的上传MultipartFile方法，可以与SpringMVC中的MultipartFile[]结合使用。
+## 5.OkHttpHelper，对[Okhttp3][3]的封装。重定义Callback将onFailure(),onResponse()里的事件写在主线程中，可以直接更新UI界面。同时提供了onStart和onFinish方法，分别是在请求前以及请求结束后调用（UI线程中）。自己可以通过继承Callback实现对response的处理（重写parseResponse(Response)方法，该方法在子线程中进行，因此不会造成界面卡顿）。封装了[Okhttp3][3]中提供的上传MultipartFile方法（觉得本身的实现实在有点繁琐。。就做了一点封装），可以与SpringMVC中的MultipartFile[]结合使用。
 - get方法：
 ```
 String url = "http://www.391k.com/api/xapi.ashx/info.json?key=bd_hyrzjjfb4modhj&size=10&page=1";
@@ -504,7 +504,7 @@ compile 'cn.flyzy2005:fztutil:1.0.0'
 # 1.0.0版本后记
 至此，FztHelper第一版的功能已经整合结束了，详细的使用说明在此READ.md里已经说清楚了（说清楚了吧？ = =）。当然，所有的类都在samples里有详细代码，如果有哪里有不清楚的可以clone工程，在Android Studio中打开再看。
 
-有bug在所难免。。反正各种问题以后也可以改，如果大家有什么想加进来的帮助类，也可以提交添加请求，总结出一些公用类，以后开发也会容易很多。
+有bug在所难免。。有问题大家一起改。以后如果大家有什么想加进来的帮助类，也可以提交添加请求，总结出一些公用类，以后开发也会容易很多。
 
 谢谢^ ^。 2017.5.23晚
 
