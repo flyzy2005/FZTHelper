@@ -16,7 +16,7 @@ import cn.flyzy2005.fztutil.exception.EntityInstantiateException;
 public class BeanUtils {
     public static <T> List<T> getEntityList(Class<T> clazz, Cursor cursor) throws EntityInstantiateException{
         List<T> tList = new ArrayList<>();
-        Method[] methods = clazz.getDeclaredMethods();
+        Method[] methods = clazz.getMethods();
         String[] columnNames = cursor.getColumnNames();
         int columnCount = columnNames.length;
         while (cursor.moveToNext()){
@@ -31,7 +31,7 @@ public class BeanUtils {
         T t = null;
         if (cursor.moveToNext()) {
             t = instantiateEntity(clazz);
-            Method[] methods = t.getClass().getDeclaredMethods();
+            Method[] methods = t.getClass().getMethods();
             String[] columnNames = cursor.getColumnNames();
             int columnCount = columnNames.length;
             mapEntity(t, clazz, columnNames, columnCount, methods, cursor);
