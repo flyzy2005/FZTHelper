@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.util;
+package cn.flyzy2005.fztutil.permission;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -10,10 +10,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import cn.flyzy2005.fztutil.bean.SinglePermission;
-import cn.flyzy2005.fztutil.func.FuncCall;
-import cn.flyzy2005.fztutil.func.FuncRational;
-import cn.flyzy2005.fztutil.func.FuncResult;
+import cn.flyzy2005.fztutil.permission.func.FuncCall;
+import cn.flyzy2005.fztutil.permission.func.FuncRational;
+import cn.flyzy2005.fztutil.permission.func.FuncResult;
 
 /**
  * Created by Fly on 2017/5/7.
@@ -137,9 +136,9 @@ public class PermissionHelper {
                 }
             } else {
 //                Log.i(TAG, "No need to ask for permission");
-                if(mResultFunc != null){
+                if (mResultFunc != null) {
                     int arr[] = new int[length];
-                    for(int i= 0; i < length; i++){
+                    for (int i = 0; i < length; i++) {
                         arr[i] = PackageManager.PERMISSION_GRANTED;
                     }
                     mResultFunc.call(reqCode, mPermissionNames, arr);

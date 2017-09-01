@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.func;
+package cn.flyzy2005.fztutil.permission.func;
 
 /**
  * Created by Fly on 2017/5/7.

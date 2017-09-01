@@ -1,11 +1,10 @@
 package cn.flyzy2005.fzthelper.ui;
 
-import android.content.Intent;
 import android.view.animation.Animation;
 import android.widget.Toast;
 
 import cn.flyzy2005.fzthelper.R;
-import cn.flyzy2005.fztutil.ui.AbstractWelcomeActivity;
+import cn.flyzy2005.fztutil.utils.AbstractWelcomeActivity;
 
 /**
  * Created by Fly on 2017/4/28.
@@ -28,9 +27,9 @@ public class AppStart extends AbstractWelcomeActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
 //                Toast.makeText(AppStart.this, "动画结束啦", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AppStart.this, MainActivity.class);
-                startActivity(intent);
-                finish();//记得调用finish()
+//                Intent intent = new Intent(AppStart.this, MainActivity.class);
+//                startActivity(intent);
+//                finish();//记得调用finish()
             }
 
             @Override

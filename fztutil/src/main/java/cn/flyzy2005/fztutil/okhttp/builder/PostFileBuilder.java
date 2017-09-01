@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.builder;
+package cn.flyzy2005.fztutil.okhttp.builder;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -17,35 +17,34 @@ import okhttp3.RequestBody;
 public class PostFileBuilder {
     private MultipartBody.Builder builder;
 
-    public PostFileBuilder(){
+    public PostFileBuilder() {
         this.builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
     }
-    public PostFileBuilder addFile(String name, String fileName, File file){
+
+    public PostFileBuilder addFile(String name, String fileName, File file) {
         RequestBody fileBody = RequestBody.create(MediaType.parse(guessMimeType(fileName)), file);
         builder.addFormDataPart(name, fileName, fileBody);
         return this;
     }
 
-    public PostFileBuilder addParam(String name, String value){
+    public PostFileBuilder addParam(String name, String value) {
         builder.addFormDataPart(name, value);
         return this;
     }
 
-    public RequestBody build(){
+    public RequestBody build() {
         return builder.build();
     }
-    private String guessMimeType(String path){
+
+    private String guessMimeType(String path) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
         String contentTypeFor = null;
-        try
-        {
+        try {
             contentTypeFor = fileNameMap.getContentTypeFor(URLEncoder.encode(path, "UTF-8"));
-        } catch (UnsupportedEncodingException e)
-        {
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        if (contentTypeFor == null)
-        {
+        if (contentTypeFor == null) {
             contentTypeFor = "application/octet-stream";
         }
         return contentTypeFor;

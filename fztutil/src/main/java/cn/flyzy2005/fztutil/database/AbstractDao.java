@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.dao;
+package cn.flyzy2005.fztutil.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -10,9 +10,6 @@ import com.alibaba.fastjson.JSONObject;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.flyzy2005.fztutil.entityMapper.BeanUtils;
-import cn.flyzy2005.fztutil.transfer.ParamTransfer;
 
 /**
  * Created by Fly on 2017/5/22.
@@ -41,13 +38,13 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
 
     @Override
     public List<T> findByParams(JSONObject condition) {
-        Object[] params = ParamTransfer.paramsAnalyseSQL(condition);
+        Object[] params = ParamsTransfer.paramsAnalyseSQL(condition);
         List<T> tList = new ArrayList<>();
         if (params[0] != null && params[1] != null) {
             String sql = " SELECT * FROM " + getTableName() + " WHERE " + params[0];
             Cursor cursor = null;
             try {
-                cursor = database.rawQuery(sql, (String[])params[1]);
+                cursor = database.rawQuery(sql, (String[]) params[1]);
                 tList = BeanUtils.getEntityList(getTClass(), cursor);
             } finally {
                 if (null != cursor)
@@ -91,20 +88,20 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
         if (model != null) {
             JSONObject jModel = JSONObject.parseObject(JSON.toJSONString(model));
             ContentValues values = new ContentValues();
-            for(String key : jModel.keySet()){
+            for (String key : jModel.keySet()) {
                 if (!withId && key.equals("id")) {
                     continue;
                 }
                 values.put(key, jModel.get(key) + "");
             }
-            return database.insert(getTableName(), null ,values) > 0;
+            return database.insert(getTableName(), null, values) > 0;
         }
         return false;
     }
 
     @Override
     public boolean delete(T model) {
-        if(null != model){
+        if (null != model) {
             JSONObject jModel = JSONObject.parseObject(JSON.toJSONString(model));
             return deleteById(jModel.get("id"));
         }
@@ -118,9 +115,9 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
 
     @Override
     public boolean deleteByParams(JSONObject condition) {
-        Object[] params = ParamTransfer.paramsAnalyseSQL(condition);
+        Object[] params = ParamsTransfer.paramsAnalyseSQL(condition);
         if (params[0] != null && params[1] != null) {
-            return database.delete(getTableName(), params[0]+"", (String[])params[1]) > 0;
+            return database.delete(getTableName(), params[0] + "", (String[]) params[1]) > 0;
         }
         return false;
     }
@@ -130,7 +127,7 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
         if (model != null) {
             JSONObject jModel = JSONObject.parseObject(JSON.toJSONString(model));
             ContentValues values = new ContentValues();
-            for(String key : jModel.keySet()){
+            for (String key : jModel.keySet()) {
                 if (key.equals("id")) {
                     continue;
                 }
@@ -144,19 +141,19 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
     @Override
     public boolean updateByParams(T model, JSONObject condition) {
         if (model != null) {
-            Object[] params = ParamTransfer.paramsAnalyseSQL(condition);
+            Object[] params = ParamsTransfer.paramsAnalyseSQL(condition);
             if (params[0] == null || params[1] == null) {
                 return false;
             }
             JSONObject jModel = JSONObject.parseObject(JSON.toJSONString(model));
             ContentValues values = new ContentValues();
-            for(String key : jModel.keySet()){
+            for (String key : jModel.keySet()) {
                 if (key.equals("id")) {
                     continue;
                 }
                 values.put(key, jModel.get(key) + "");
             }
-            return database.update(getTableName(), values, params[0]+"", (String[])params[1]) > 0;
+            return database.update(getTableName(), values, params[0] + "", (String[]) params[1]) > 0;
         }
         return false;
     }
@@ -169,7 +166,7 @@ public abstract class AbstractDao<T> implements IBaseDao<T> {
         this.database = database;
     }
 
-    protected SQLiteDatabase getDatabase(){
+    protected SQLiteDatabase getDatabase() {
         return database;
     }
 

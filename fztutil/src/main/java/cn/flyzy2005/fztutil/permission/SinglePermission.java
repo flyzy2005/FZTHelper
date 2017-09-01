@@ -1,10 +1,10 @@
-package cn.flyzy2005.fztutil.bean;
+package cn.flyzy2005.fztutil.permission;
 
 /**
  * Created by Fly on 2017/5/7.
  */
 
-public class SinglePermission {
+class SinglePermission {
     private String mPermissionName;
     private boolean mRationalNeeded = false;
     private String mReason;

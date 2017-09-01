@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.entityMapper;
+package cn.flyzy2005.fztutil.database;
 
 import android.database.Cursor;
 
@@ -14,12 +14,12 @@ import cn.flyzy2005.fztutil.exception.EntityInstantiateException;
  */
 
 public class BeanUtils {
-    public static <T> List<T> getEntityList(Class<T> clazz, Cursor cursor) throws EntityInstantiateException{
+    public static <T> List<T> getEntityList(Class<T> clazz, Cursor cursor) throws EntityInstantiateException {
         List<T> tList = new ArrayList<>();
         Method[] methods = clazz.getMethods();
         String[] columnNames = cursor.getColumnNames();
         int columnCount = columnNames.length;
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             T t = instantiateEntity(clazz);
             mapEntity(t, clazz, columnNames, columnCount, methods, cursor);
             tList.add(t);
@@ -51,7 +51,7 @@ public class BeanUtils {
         }
     }
 
-    private static <T> void mapEntity(T t,Class<T> clazz, String[] columnNames, int columnCount, Method[] methods, Cursor cursor) throws EntityInstantiateException{
+    private static <T> void mapEntity(T t, Class<T> clazz, String[] columnNames, int columnCount, Method[] methods, Cursor cursor) throws EntityInstantiateException {
         for (int i = 0; i < columnCount; ++i) {
             String methodName = "set" + columnNames[i];
             for (Method method : methods) {

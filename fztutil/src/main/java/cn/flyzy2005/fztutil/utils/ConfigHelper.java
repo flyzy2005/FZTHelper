@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.util;
+package cn.flyzy2005.fztutil.utils;
 
 import android.content.Context;
 
@@ -15,22 +15,16 @@ public class ConfigHelper {
     private static final String APP_CONFIG = "config";
     private static volatile ConfigHelper instance = null;
     private Context mContext;
-    private ConfigHelper(Context context){
+
+    private ConfigHelper(Context context) {
         this.mContext = context;
     }
 
-    /**
-     * Double-Check
-     * 避免每次访问都需要同步，因此不直接使用同步方法
-     * 加volatile关键字是因为Java内存模型允许“无序写入”，可能存在线程1到达步骤1时，instance变成非null，但是还
-     * 没有完成初始化，此时线程2调用getInstance()方法，直接返回了一个还会初始化的对象，造成系统崩溃
-     * @return
-     */
-    public static ConfigHelper getInstance(Context context){
-        if(null == instance){
-            synchronized (ConfigHelper.class){
-                if(null == instance){
-                    instance = new ConfigHelper(context);//1
+    public static ConfigHelper getInstance(Context context) {
+        if (null == instance) {
+            synchronized (ConfigHelper.class) {
+                if (null == instance) {
+                    instance = new ConfigHelper(context);
                 }
             }
         }
@@ -81,7 +75,7 @@ public class ConfigHelper {
         return props;
     }
 
-    private void setProps(Properties props){
+    private void setProps(Properties props) {
         FileOutputStream fos = null;
         try {
             // 把config建在(自定义)app_config的目录下

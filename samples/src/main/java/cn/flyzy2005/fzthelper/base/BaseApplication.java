@@ -9,7 +9,7 @@ import java.util.Properties;
 import cn.flyzy2005.fzthelper.R;
 import cn.flyzy2005.fzthelper.bean.User;
 import cn.flyzy2005.fzthelper.db.SQLiteHelper;
-import cn.flyzy2005.fztutil.util.ConfigHelper;
+import cn.flyzy2005.fztutil.utils.ConfigHelper;
 
 /**
  * Created by Fly on 2017/5/3.

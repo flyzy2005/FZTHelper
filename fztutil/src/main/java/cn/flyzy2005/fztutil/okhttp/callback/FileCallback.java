@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.callback;
+package cn.flyzy2005.fztutil.okhttp.callback;
 
 import java.io.File;
 import java.io.FileOutputStream;

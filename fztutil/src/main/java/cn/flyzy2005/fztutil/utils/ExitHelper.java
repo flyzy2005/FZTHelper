@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.util;
+package cn.flyzy2005.fztutil.utils;
 
 import android.app.Activity;
 import android.os.Handler;
@@ -26,24 +26,25 @@ public class ExitHelper {
 
     /**
      * 判断连续2秒内点击2次退出程序
+     *
      * @param keyCode
      * @param event
      * @return
      */
-    public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode != KeyEvent.KEYCODE_BACK){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_BACK) {
             return false;
         }
-        if(isOnKeyBacking){
+        if (isOnKeyBacking) {
             mHandler.removeCallbacks(onBackTimeRunnable);
-            if(mBackToast != null){
+            if (mBackToast != null) {
                 mBackToast.cancel();
             }
             AppExit();
             return true;
-        }else{
+        } else {
             isOnKeyBacking = true;
-            if(mBackToast == null){
+            if (mBackToast == null) {
                 mBackToast = Toast.makeText(mActivity, mBackMessage, Toast.LENGTH_SHORT);
             }
             mBackToast.show();
@@ -54,17 +55,19 @@ public class ExitHelper {
 
     /**
      * 设置提示信息
+     *
      * @param message 信息内容
      */
-    public void setBackMessage(String message){
+    public void setBackMessage(String message) {
         mBackMessage = message;
     }
+
     private Runnable onBackTimeRunnable = new Runnable() {
 
         @Override
         public void run() {
             isOnKeyBacking = false;
-            if(mBackToast != null){
+            if (mBackToast != null) {
                 mBackToast.cancel();
             }
         }

@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import cn.flyzy2005.fzthelper.base.BaseApplication;
 import cn.flyzy2005.fzthelper.bean.Book;
-import cn.flyzy2005.fztutil.dao.AbstractDao;
+import cn.flyzy2005.fztutil.database.AbstractDao;
 
 /**
  * Created by Fly on 2017/5/22.

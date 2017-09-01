@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.transfer;
+package cn.flyzy2005.fztutil.database;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -10,8 +10,8 @@ import java.util.List;
  * Created by Fly on 2017/4/21.
  * 解析参数，拼接SQL语句
  */
-public class ParamTransfer {
-    public static Object[] paramsAnalyseSQL(JSONObject params) {
+class ParamsTransfer {
+    static Object[] paramsAnalyseSQL(JSONObject params) {
 
         if (params != null) {
             List<String> names = new ArrayList<String>();

@@ -2,7 +2,7 @@ package cn.flyzy2005.fzthelper.db;
 
 import android.content.Context;
 
-import cn.flyzy2005.fztutil.db.AbstractSQLiteManger;
+import cn.flyzy2005.fztutil.database.AbstractSQLiteManger;
 
 /**
  * Created by Fly on 2017/5/22.

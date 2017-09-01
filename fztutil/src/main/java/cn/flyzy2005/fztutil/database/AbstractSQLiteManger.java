@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.db;
+package cn.flyzy2005.fztutil.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -51,7 +51,7 @@ public abstract class AbstractSQLiteManger {
     public void openDatabase() throws IOException {
         try {
             this.database = this.openDatabase(databasePath);
-        }catch (IOException exception){
+        } catch (IOException exception) {
             throw new IOException("写入db文件出错，请检查路径是否正确");
         }
         updateDatabase(database.getVersion(), databaseVersion);
