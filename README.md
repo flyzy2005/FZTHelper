@@ -316,7 +316,7 @@ public class SQLiteHelper extends AbstractSQLiteManger {
  * <p>
  *     很关键的一个字段就是<b>id</b>，并且判断就是通过id来判断的，并不会识别其他如bookId，carId
  *     在{@link AbstractDao}中对这些方法进行了封装，代码并不复杂，可以稍微理解一下最终效果再使用
- *     暂时插入和更新只支持String和int类型，查找自动映射只支持long、String、boolean，详见{@link cn.flyzy2005.fztutil.database.BeanUtils}
+ *     暂时插入和更新只支持String和int类型，查找自动映射只支持long、String、boolean，详见{@link cn.flyzy2005.fztutil.database.ReflectUtils}
  *     如果功能不够，可以通过{@code getDatabase()}获得SQLiteDatabase自己写具体方法
  * </p>
  */
