@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.database;
+package cn.flyzy2005.fztutil.database.dao;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -14,9 +14,9 @@ class ParamsTransfer {
     static Object[] paramsAnalyseSQL(JSONObject params) {
 
         if (params != null) {
-            List<String> names = new ArrayList<String>();
+            List<String> names = new ArrayList<>();
 
-            List<String> values = new ArrayList<String>();
+            List<String> values = new ArrayList<>();
 
             for (String key : params.keySet()) {
 

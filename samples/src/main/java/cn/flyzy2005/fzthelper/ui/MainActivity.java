@@ -22,14 +22,14 @@ import cn.flyzy2005.fzthelper.base.BaseApplication;
 import cn.flyzy2005.fzthelper.bean.Book;
 import cn.flyzy2005.fzthelper.bean.User;
 import cn.flyzy2005.fzthelper.dao.BookDao;
+import cn.flyzy2005.fztutil.okhttp.OkHttpHelper;
 import cn.flyzy2005.fztutil.okhttp.callback.FileCallback;
 import cn.flyzy2005.fztutil.okhttp.callback.StringCallback;
+import cn.flyzy2005.fztutil.permission.PermissionHelper;
 import cn.flyzy2005.fztutil.permission.func.FuncCall;
 import cn.flyzy2005.fztutil.permission.func.FuncRational;
 import cn.flyzy2005.fztutil.permission.func.FuncResult;
 import cn.flyzy2005.fztutil.utils.ExitHelper;
-import cn.flyzy2005.fztutil.okhttp.OkHttpHelper;
-import cn.flyzy2005.fztutil.permission.PermissionHelper;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.Request;
@@ -215,67 +215,71 @@ public class MainActivity extends AppCompatActivity {
         Book bookInsert = new Book();
         bookInsert.setId(1);//并不会用到
         bookInsert.setPublisher("whu1");
-        bookInsert.setName("心灵鸡汤1");
+        bookInsert.setName1("心灵鸡汤1");
         bookInsert.setAuthor("fly1");
         if(bookDao.insert(bookInsert, false)){
             Log.i(TAG, "insert: " + "插入成功，id采用自增模式");
         }
-        bookInsert.setId(6);//会用这个作为id插入到表中
+        bookInsert.setId(7);//会用这个作为id插入到表中
         bookInsert.setPublisher("whu2");
         bookInsert.setAuthor("fly2");
-        bookInsert.setName("心灵鸡汤2");
+        bookInsert.setName1("心灵鸡汤2");
         if(bookDao.insert(bookInsert, true)){
             Log.i(TAG, "insert: " + "插入成功， id为设置的id");
         }
 
-        Book bookFind = bookDao.findById(1);
-        Log.i(TAG, "find: " + "根据id找到book：" + JSON.toJSONString(bookFind));
-
-        List<Book> bookList1 = bookDao.findAll();
+//        Book bookFind = bookDao.getByPrimaryKey(1);
+//        Log.i(TAG, "find: " + "根据id找到book：" + JSON.toJSONString(bookFind));
+//
+        List<Book> bookList1 = bookDao.listAll();
         Log.i(TAG, "find: " + "查询出所有book：" + JSON.toJSONString(bookList1));
 
+//        bookDao.deleteAll();
+//
         JSONObject condition = new JSONObject();
-        condition.put("author", "fly");
-        condition.put("publisher", "whu");
-        List<Book> bookList2 = bookDao.findByParams(condition);
+        condition.put("author", "fly2");
+        condition.put("publisher", "whu2");
+        List<Book> bookList2 = bookDao.listByParams(condition);
         Log.i(TAG, "find: " + "根据条件查询出所有book：" + JSON.toJSONString(bookList2));
 
-        String sql = "select * from book where author = 'fly'";
-        List<Book> bookList3 = bookDao.findBySql(sql);
+        String sql = "select * from book where author = 'fly1'";
+        List<Book> bookList3 = bookDao.listBySql(sql);
         Log.i(TAG, "find: " + "根据sql语句查询出所有book：" + JSON.toJSONString(bookList3));
 
-        if(bookDao.deleteById(1)){
-            Log.i(TAG, "delete: " + "根据id删除成功，成功删除id为1的book");
+        if(bookDao.deleteByPrimaryKey(7)){
+            Log.i(TAG, "delete: " + "根据id删除成功，成功删除id为7的book");
         }
+
+
 
         Book bookDelete = new Book();
-        bookDelete.setId(2);
+        bookDelete.setId(1);
         if(bookDao.delete(bookDelete)){
-            Log.i(TAG, "delete: " + "根据model删除成功，成功删除实体bookDelete，实质是删除id为2的book");
+            Log.i(TAG, "delete: " + "根据model删除成功，成功删除实体bookDelete，实质是删除id为14的book");
         }
-
+//
         Book bookModify = new Book();
-        bookModify.setId(3);
+        bookModify.setId(2);
         bookModify.setAuthor("flyModify");
-        bookModify.setName("心灵鸡汤Modify");
+        bookModify.setName1("心灵鸡汤Modify");
         bookModify.setPublisher("whuModify");
         if(bookDao.update(bookModify)){
             Log.i(TAG, "update: " + "成功修改id为" + bookModify.getId() + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
         }
-
-        condition = new JSONObject();
-        condition.put("author", "fly1");
-        condition.put("publisher", "whu1");
-        if(bookDao.updateByParams(bookModify, condition)){
-            Log.i(TAG, "update: " + "成功修改满足条件" + condition + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
-        }
-
-        condition = new JSONObject();
-        condition.put("author", "flyModify");
-        condition.put("publisher", "whuModify");
-        if(bookDao.deleteByParams(condition)){
-            Log.i(TAG, "delete: " + "成功删除满足条件" + condition + "的书籍");
-        }
+//
+//        condition = new JSONObject();
+//        condition.put("author", "fly1");
+//        condition.put("publisher", "whu1");
+//        if(bookDao.updateByParams(bookModify, condition)){
+//            Log.i(TAG, "update: " + "成功修改满足条件" + condition + "的书籍，书籍信息修改为：" + JSON.toJSONString(bookModify));
+//        }
+//
+//        condition = new JSONObject();
+//        condition.put("author", "flyModify");
+//        condition.put("publisher", "whuModify");
+//        if(bookDao.deleteByParams(condition)){
+//            Log.i(TAG, "delete: " + "成功删除满足条件" + condition + "的书籍");
+//        }
 
     }
 }
