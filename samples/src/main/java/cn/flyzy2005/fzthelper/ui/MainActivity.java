@@ -22,6 +22,7 @@ import cn.flyzy2005.fzthelper.base.BaseApplication;
 import cn.flyzy2005.fzthelper.bean.Book;
 import cn.flyzy2005.fzthelper.bean.User;
 import cn.flyzy2005.fzthelper.dao.BookDao;
+import cn.flyzy2005.fztutil.database.DataBaseConfig;
 import cn.flyzy2005.fztutil.okhttp.OkHttpHelper;
 import cn.flyzy2005.fztutil.okhttp.callback.FileCallback;
 import cn.flyzy2005.fztutil.okhttp.callback.StringCallback;
@@ -214,13 +215,13 @@ public class MainActivity extends AppCompatActivity {
         BookDao bookDao = new BookDao();
         Book bookInsert = new Book();
         bookInsert.setId(1);//并不会用到
-        bookInsert.setPublisher("whu1");
+        bookInsert.setPublisher("whu2");
         bookInsert.setName1("心灵鸡汤1");
         bookInsert.setAuthor("fly1");
         if(bookDao.insert(bookInsert, false)){
             Log.i(TAG, "insert: " + "插入成功，id采用自增模式");
         }
-        bookInsert.setId(7);//会用这个作为id插入到表中
+        bookInsert.setId(15);//会用这个作为id插入到表中
         bookInsert.setPublisher("whu2");
         bookInsert.setAuthor("fly2");
         bookInsert.setName1("心灵鸡汤2");
@@ -237,8 +238,8 @@ public class MainActivity extends AppCompatActivity {
 //        bookDao.deleteAll();
 //
         JSONObject condition = new JSONObject();
-        condition.put("author", "fly2");
-        condition.put("publisher", "whu2");
+        condition.put("author", "fly1");
+        condition.put("publisher" + DataBaseConfig.LIKE_END_STRING, "whu%");
         List<Book> bookList2 = bookDao.listByParams(condition);
         Log.i(TAG, "find: " + "根据条件查询出所有book：" + JSON.toJSONString(bookList2));
 
