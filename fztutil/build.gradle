@@ -40,7 +40,7 @@ task makeJar(type: Copy) {
     from('build/intermediates/bundles/default/')
     into('build/outputs/')
     include('classes.jar')
-    rename ('classes.jar', 'fztutil-1_0_1.jar')
+    rename ('classes.jar', 'fztutil-1_0_2.jar')
 }
 
 makeJar.dependsOn(clearJar, build)
@@ -53,7 +53,7 @@ publish {
     groupId = 'cn.flyzy2005'//jcenter上的路径
     repoName = 'fzthelper'
     artifactId = 'fztutil'//项目名称
-    publishVersion = '1.0.1'//版本号
+    publishVersion = '1.0.2'//版本号
     desc = 'This is a helper for fzt building Android project'
     website = 'https://github.com/Flyzy2005/FZTHelper'
 }
