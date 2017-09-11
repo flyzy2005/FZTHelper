@@ -17,13 +17,28 @@ import okhttp3.Response;
  */
 
 public class OkHttpHelper {
-    private static final OkHttpClient okHttpClient = new OkHttpClient();
+    private OkHttpClient okHttpClient;
+    private volatile static OkHttpHelper instance;
 
-    private OkHttpHelper() {
+    private OkHttpHelper(OkHttpClient okHttpClient) {
+        if (null == okHttpClient)
+            this.okHttpClient = new OkHttpClient();
+        else
+            this.okHttpClient = okHttpClient;
+    }
+
+    public static OkHttpHelper initClient(OkHttpClient okHttpClient) {
+        if (null == instance) {
+            synchronized (OkHttpHelper.class) {
+                if (null == instance)
+                    instance = new OkHttpHelper(okHttpClient);
+            }
+        }
+        return instance;
     }
 
     public static OkHttpHelper getInstance() {
-        return OkHttpHelperHolder.INSTANCE;
+        return initClient(null);
     }
 
     public OkHttpClient getOkHttpClient() {
@@ -89,7 +104,4 @@ public class OkHttpHelper {
         });
     }
 
-    private static class OkHttpHelperHolder {
-        private static final OkHttpHelper INSTANCE = new OkHttpHelper();
-    }
 }
