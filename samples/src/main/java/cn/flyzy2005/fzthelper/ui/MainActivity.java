@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -47,13 +48,14 @@ public class MainActivity extends AppCompatActivity {
     private static int REQUEST_CODE_CAMERA = 101;
     private ExitHelper mExitHelper;
     private PermissionHelper.PermissionRequestObject mPermissionRequestObject;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mExitHelper = new ExitHelper(this);
         mExitHelper.setBackMessage("退出咯");
+        progressBar = (ProgressBar) findViewById(R.id.progress);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 .onAllGranted(new FuncCall() {
                     @Override
                     public void call() {
-                        String url = "https://github.com/Flyzy2005/FZTHelper/blob/master/pictures/UML_PermissionHelper.png?raw=true%20PermisionHelper";
+                        String url = "http://p.gdown.baidu.com/0631f19a5e83326459fc25fa99fdaeb47bf99b5228730dbf0e4af0926e608ebbdd2735d753ed512f27776ec1ed306747be937a0dc3955c4f396de9938e12ce9c31a150aeca8ecd6189f8c10a6ad9652692f1f54d9e1b9bde74cb1f6923e3de581e920b5555bdc064631ea8930fe19efb32790a47efdd32798f19c7ccbe0d88da52651f73c5d0e634d280611983b8e7e6bd01941a3e815737260e99f8fb8b00294087c0adcd35d2df2e4e3b11e40d5195d8f3c57c86006905277c497bb23db3deabee65718d2c60385fbcc93a03bccf074080606fa83cffc2";
 
                         Request request = new Request.Builder()
                                 .url(url)
@@ -151,6 +153,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call call, File file) {
                                 ((TextView) findViewById(R.id.file_result)).setText("OK");
+                            }
+
+                            @Override
+                            public void inProgress(float progress, long total) {
+                                progressBar.setProgress((int) (progress * 100));
                             }
                         });
                     }
@@ -210,6 +217,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    public void post_body(View view) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < 10000; i++)
+            builder.append("123");
+        RequestBody requestBody = OkHttpHelper.getInstance().postBody().content(builder.toString()).build();
+        Request request = new Request.Builder()
+                .url("http://192.168.1.111:8080/GeoDisaster/mobiledata/collects/routes")
+                .post(requestBody)
+                .build();
+        OkHttpHelper.getInstance().execute(request, new StringCallback() {
+            @Override
+            public void onFailure(Call call, Exception e) {
+                ((TextView)findViewById(R.id.post_body_result)).setText(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, String s) {
+                ((TextView)findViewById(R.id.post_body_result)).setText(s);
+            }
+        });
+
+    }
+
 
     public void query(View view) {
         BookDao bookDao = new BookDao();

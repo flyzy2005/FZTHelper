@@ -5,6 +5,7 @@ import android.os.Looper;
 
 import java.io.IOException;
 
+import cn.flyzy2005.fztutil.okhttp.builder.PostBodyBuilder;
 import cn.flyzy2005.fztutil.okhttp.builder.PostFileBuilder;
 import cn.flyzy2005.fztutil.okhttp.callback.Callback;
 import okhttp3.Call;
@@ -14,6 +15,7 @@ import okhttp3.Response;
 
 /**
  * Created by Fly on 2017/5/17.
+ * refer to https://github.com/hongyangAndroid/okhttputils
  */
 
 public class OkHttpHelper {
@@ -80,6 +82,10 @@ public class OkHttpHelper {
 
     public PostFileBuilder postMultipartFile() {
         return new PostFileBuilder();
+    }
+
+    public PostBodyBuilder postBody() {
+        return new PostBodyBuilder();
     }
 
     private void sendFailResultCallback(final Call call, final Exception e, final Callback callback) {

@@ -72,7 +72,12 @@
             android:layout_height="wrap_content"
             android:onClick="getFile"
             android:text="get file" />
-
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:max="100"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/file_result"
             android:layout_width="match_parent"
@@ -101,6 +106,17 @@
             android:layout_height="wrap_content"
             android:text="waiting.." />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="post_body"
+            android:text="post body" />
+
+        <TextView
+            android:id="@+id/post_body_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="waiting.." />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
