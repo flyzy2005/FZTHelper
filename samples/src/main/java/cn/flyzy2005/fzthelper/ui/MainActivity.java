@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.vector.update_app.UpdateAppManager;
 
 import java.io.File;
 import java.util.List;
@@ -31,6 +32,7 @@ import cn.flyzy2005.fztutil.permission.PermissionHelper;
 import cn.flyzy2005.fztutil.permission.func.FuncCall;
 import cn.flyzy2005.fztutil.permission.func.FuncRational;
 import cn.flyzy2005.fztutil.permission.func.FuncResult;
+import cn.flyzy2005.fztutil.update.UpdateHttpManager;
 import cn.flyzy2005.fztutil.utils.ExitHelper;
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -240,7 +242,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void query(View view) {
         BookDao bookDao = new BookDao();
         Book bookInsert = new Book();
@@ -312,5 +313,15 @@ public class MainActivity extends AppCompatActivity {
 //            Log.i(TAG, "delete: " + "成功删除满足条件" + condition + "的书籍");
 //        }
 
+    }
+
+    public void update(View view) {
+        String url = "https://raw.githubusercontent.com/WVector/AppUpdateDemo/master/json/json.txt";
+        new UpdateAppManager.Builder()
+                .setActivity(this)
+                .setUpdateUrl(url)
+                .setHttpManager(new UpdateHttpManager())
+                .build()
+                .update();
     }
 }
