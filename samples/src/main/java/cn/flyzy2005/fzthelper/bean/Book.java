@@ -1,6 +1,7 @@
 package cn.flyzy2005.fzthelper.bean;
 
-import cn.flyzy2005.fztutil.database.anno.ColumnAlias;
+
+import cn.flyzy2005.daoutils.anno.ColumnAlias;
 
 /**
  * Created by Fly on 2017/5/22.

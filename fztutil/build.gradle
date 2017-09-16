@@ -31,6 +31,7 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
     compile 'com.alibaba:fastjson:1.2.31'
     compile 'com.qianwen:update-app:3.3.7'
+    compile 'cn.flyzy2005:daoutils:1.0.1'
 }
 task clearJar(type: Delete) {
     delete 'build/outputs/aar/fztutil-debug.aar'

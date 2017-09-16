@@ -1,7 +1,8 @@
 package cn.flyzy2005.fzthelper.bean;
 
-import cn.flyzy2005.fztutil.database.anno.Ignore;
-import cn.flyzy2005.fztutil.database.anno.PrimaryKey;
+
+import cn.flyzy2005.daoutils.anno.Ignore;
+import cn.flyzy2005.daoutils.anno.PrimaryKey;
 
 /**
  * Created by Fly on 2017/9/4.

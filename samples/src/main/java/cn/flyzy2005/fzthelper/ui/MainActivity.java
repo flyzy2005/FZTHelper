@@ -19,12 +19,12 @@ import com.vector.update_app.UpdateAppManager;
 import java.io.File;
 import java.util.List;
 
+import cn.flyzy2005.daoutils.DataBaseConfig;
 import cn.flyzy2005.fzthelper.R;
 import cn.flyzy2005.fzthelper.base.BaseApplication;
 import cn.flyzy2005.fzthelper.bean.Book;
 import cn.flyzy2005.fzthelper.bean.User;
 import cn.flyzy2005.fzthelper.dao.BookDao;
-import cn.flyzy2005.fztutil.database.DataBaseConfig;
 import cn.flyzy2005.fztutil.okhttp.OkHttpHelper;
 import cn.flyzy2005.fztutil.okhttp.callback.FileCallback;
 import cn.flyzy2005.fztutil.okhttp.callback.StringCallback;

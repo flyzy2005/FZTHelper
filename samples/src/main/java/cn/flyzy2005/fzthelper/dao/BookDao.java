@@ -2,9 +2,10 @@ package cn.flyzy2005.fzthelper.dao;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import cn.flyzy2005.daoutils.dao.AbstractDao;
 import cn.flyzy2005.fzthelper.base.BaseApplication;
 import cn.flyzy2005.fzthelper.bean.Book;
-import cn.flyzy2005.fztutil.database.dao.AbstractDao;
+
 
 /**
  * Created by Fly on 2017/5/22.
