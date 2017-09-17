@@ -1,4 +1,4 @@
-package cn.flyzy2005.fztutil.utils;
+package cn.flyzy2005.fztutil.view;
 
 import android.app.Activity;
 import android.os.Bundle;

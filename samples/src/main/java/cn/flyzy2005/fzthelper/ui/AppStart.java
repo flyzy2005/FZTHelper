@@ -5,7 +5,7 @@ import android.view.animation.Animation;
 import android.widget.Toast;
 
 import cn.flyzy2005.fzthelper.R;
-import cn.flyzy2005.fztutil.utils.AbstractWelcomeActivity;
+import cn.flyzy2005.fztutil.view.AbstractWelcomeActivity;
 
 /**
  * Created by Fly on 2017/4/28.
