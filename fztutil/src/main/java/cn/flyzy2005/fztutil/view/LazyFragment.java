@@ -25,7 +25,7 @@ import android.view.ViewGroup;
  * transaction.show(aFragment);
  *
  * update 2017/01/23
- * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+ * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible and Prepared
  * 一般用于PagerAdapter需要同时刷新全部子Fragment的场景
  * 不要new 新的 PagerAdapter 而采取reset数据的方式
  * 所以要求Fragment重新走initData方法
@@ -48,8 +48,8 @@ import android.view.ViewGroup;
  * 若将代码写在initData中, 则是在Fragment真正显示出来后才会去Load(懒加载).
  *
  * 3.setForceLoad();
- * 忽略isFirstLoad的值，强制刷新数据，前提是Visible & Prepared.
- * 未Visible & Prepared的页面需要注意在RefreshData的时候视图为空的问题, 具体请参见实例代码
+ * 忽略isFirstLoad的值，强制刷新数据，前提是Visible and Prepared.
+ * 未Visible and Prepared的页面需要注意在RefreshData的时候视图为空的问题, 具体请参见实例代码
  * 搜索关键词
  * setForceLoad / refreshAllFragment / refreshData 即可找到关键代码
  * </pre>
@@ -77,7 +77,7 @@ public abstract class LazyFragment extends Fragment {
     private boolean isFirstLoad = true;
     /**
      * <pre>
-     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible and Prepared
      * 一般用于PagerAdapter需要刷新各个子Fragment的场景
      * 不要new 新的 PagerAdapter 而采取reset数据的方式
      * 所以要求Fragment重新走initData方法
@@ -194,7 +194,7 @@ public abstract class LazyFragment extends Fragment {
     }
 
     /**
-     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible & Prepared
+     * 忽略isFirstLoad的值，强制刷新数据，但仍要Visible and Prepared
      */
     public void setForceLoad(boolean forceLoad) {
         this.forceLoad = forceLoad;
